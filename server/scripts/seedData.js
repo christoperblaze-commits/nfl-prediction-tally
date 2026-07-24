@@ -170,7 +170,7 @@ export function seedSamplePredictions(dbPath) {
   db.prepare('DELETE FROM predictions').run();
 
   const insertPredStmt = db.prepare(`
-    INSERT INTO predictions (id, source_id, game_id, predictor_name, picked_team_id, quote_snippet, status)
+    INSERT OR REPLACE INTO predictions (id, source_id, game_id, predictor_name, picked_team_id, quote_snippet, status)
     VALUES (?, ?, ?, ?, ?, ?, ?)
   `);
 
@@ -193,9 +193,14 @@ export function seedSamplePredictions(dbPath) {
     const favoredTeamId = game.winner_team_id || (gameSeed > 35 ? game.home_team_id : game.away_team_id);
     const underdogTeamId = favoredTeamId === game.home_team_id ? game.away_team_id : game.home_team_id;
 
+    // Vary confidence levels per fixture to create diverse ratings (Locks, Favorites, Slight Edges, Toss-ups)
+    const gameIdx = parseInt(game.id.replace(/[^0-9]/g, '') || '0', 10);
+    const confidenceTier = gameIdx % 4; 
+    const fixtureDominance = confidenceTier === 0 ? 0.92 : confidenceTier === 1 ? 0.74 : confidenceTier === 2 ? 0.61 : 0.52;
+
     applicableSources.forEach((s, sIdx) => {
       const pseudoRandomSeed = (game.week * 17 + sIdx * 31 + (game.id.length * 7)) % 100;
-      const isFavoredPick = (pseudoRandomSeed / 100.0) < s.targetAccuracy;
+      const isFavoredPick = (pseudoRandomSeed / 100.0) < fixtureDominance;
 
       const pickedTeamId = isFavoredPick ? favoredTeamId : underdogTeamId;
       const pickedTeamObj = teamMap[pickedTeamId] || { name: `Team ${pickedTeamId}` };
@@ -209,19 +214,15 @@ export function seedSamplePredictions(dbPath) {
         status = pickedTeamId === game.winner_team_id ? 'CORRECT' : 'INCORRECT';
       }
 
-      // Check if predictions already exist for this source & game
-      const existing = db.prepare('SELECT id FROM predictions WHERE source_id = ? AND game_id = ?').get(s.id, game.id);
-      if (!existing) {
-        insertPredStmt.run(
-          `p_seed_${game.league}_${game.id}_${sIdx}_${idCounter++}`,
-          s.id,
-          game.id,
-          s.author_name,
-          pickedTeamId,
-          quote,
-          status
-        );
-      }
+      insertPredStmt.run(
+        `p_seed_${game.league}_${game.id}_${sIdx}_${idCounter++}`,
+        s.id,
+        game.id,
+        s.author_name,
+        pickedTeamId,
+        quote,
+        status
+      );
     });
   }
 
