@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">Gridiron &amp; Pitch Oracle</string>
+    <string name="title_activity_main">Gridiron &amp; Pitch Oracle</string>
+    <string name="package_name">com.oracle.nfltally</string>
+    <string name="custom_url_scheme">com.oracle.nfltally</string>
+</resources>

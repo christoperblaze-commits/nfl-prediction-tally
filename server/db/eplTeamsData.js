@@ -1,0 +1,22 @@
+export const EPL_TEAMS = [
+  { id: 'epl_1', name: 'Arsenal', abbreviation: 'ARS', color: '#EF0107', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/359.png' },
+  { id: 'epl_2', name: 'Aston Villa', abbreviation: 'AVL', color: '#95BFE5', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/362.png' },
+  { id: 'epl_3', name: 'Bournemouth', abbreviation: 'BOU', color: '#DA291C', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/349.png' },
+  { id: 'epl_4', name: 'Brentford', abbreviation: 'BRE', color: '#E30613', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/3378.png' },
+  { id: 'epl_5', name: 'Brighton & Hove Albion', abbreviation: 'BHA', color: '#0057B8', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/331.png' },
+  { id: 'epl_6', name: 'Chelsea', abbreviation: 'CHE', color: '#034694', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/363.png' },
+  { id: 'epl_7', name: 'Crystal Palace', abbreviation: 'CRY', color: '#1B458F', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/384.png' },
+  { id: 'epl_8', name: 'Everton', abbreviation: 'EVE', color: '#003399', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/368.png' },
+  { id: 'epl_9', name: 'Fulham', abbreviation: 'FUL', color: '#000000', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/370.png' },
+  { id: 'epl_10', name: 'Ipswich Town', abbreviation: 'IPS', color: '#003399', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/373.png' },
+  { id: 'epl_11', name: 'Leicester City', abbreviation: 'LEI', color: '#0053A0', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/375.png' },
+  { id: 'epl_12', name: 'Liverpool', abbreviation: 'LIV', color: '#C8102E', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/364.png' },
+  { id: 'epl_13', name: 'Manchester City', abbreviation: 'MCI', color: '#6CABDD', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/382.png' },
+  { id: 'epl_14', name: 'Manchester United', abbreviation: 'MUN', color: '#DA291C', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/360.png' },
+  { id: 'epl_15', name: 'Newcastle United', abbreviation: 'NEW', color: '#241F20', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/361.png' },
+  { id: 'epl_16', name: 'Nottingham Forest', abbreviation: 'NFO', color: '#DD0000', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/393.png' },
+  { id: 'epl_17', name: 'Southampton', abbreviation: 'SOU', color: '#D71920', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/376.png' },
+  { id: 'epl_18', name: 'Tottenham Hotspur', abbreviation: 'TOT', color: '#132257', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/367.png' },
+  { id: 'epl_19', name: 'West Ham United', abbreviation: 'WHU', color: '#7A263A', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/371.png' },
+  { id: 'epl_20', name: 'Wolverhampton Wanderers', abbreviation: 'WOL', color: '#FDB913', logo_url: 'https://a.espncdn.com/i/teamlogos/soccer/500/380.png' }
+];
