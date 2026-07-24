@@ -102,13 +102,24 @@ router.get('/games', (req, res) => {
     const games = db.prepare(query).all(...params);
 
     const result = games.map(g => {
-      const predictions = db.prepare(`
+      let predictions = db.prepare(`
         SELECT p.*, s.platform, s.url as source_url, t.name as picked_team_name, t.logo_url as picked_team_logo
         FROM predictions p
         LEFT JOIN sources s ON p.source_id = s.id
         LEFT JOIN teams t ON p.picked_team_id = t.id
         WHERE p.game_id = ?
       `).all(g.id);
+
+      if (predictions.length === 0) {
+        predictions = db.prepare(`
+          SELECT p.*, s.platform, s.url as source_url, t.name as picked_team_name, t.logo_url as picked_team_logo
+          FROM predictions p
+          JOIN games g2 ON p.game_id = g2.id
+          LEFT JOIN sources s ON p.source_id = s.id
+          LEFT JOIN teams t ON p.picked_team_id = t.id
+          WHERE (g2.home_team_id = ? OR g2.away_team_id = ?) AND g2.season = ? AND g2.week = ?
+        `).all(g.home_team_id, g.home_team_id, g.season, g.week);
+      }
 
       // Source weights for Master Oracle Rating calculation
       const sourceWeights = {

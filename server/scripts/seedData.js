@@ -175,11 +175,11 @@ export function seedSamplePredictions(dbPath) {
   `);
 
   let idCounter = 1;
-  const historical2025Games = allGames.filter(g => g.season === 2025);
 
-  // Populate realistic, highly accurate backtest predictions
-  for (const game of historical2025Games) {
+  // Populate realistic, highly accurate predictions for all games (2025 and 2026)
+  for (const game of allGames) {
     const isEpl = game.league === 'EPL';
+    const is2025 = game.season === 2025;
     const teamMap = isEpl ? eplTeamMap : nflTeamMap;
     const applicableSources = isEpl 
       ? sources.filter(s => s.id.startsWith('src_epl_'))
@@ -187,30 +187,41 @@ export function seedSamplePredictions(dbPath) {
 
     const homeTeam = teamMap[game.home_team_id] || { name: `Team ${game.home_team_id}` };
     const awayTeam = teamMap[game.away_team_id] || { name: `Team ${game.away_team_id}` };
-    const winningTeamId = game.winner_team_id || game.home_team_id;
-    const losingTeamId = winningTeamId === game.home_team_id ? game.away_team_id : game.home_team_id;
+    
+    // For 2025 use winner_team_id; for 2026 pick favored team based on fixture seed
+    const gameSeed = (game.week * 13 + (game.id.length * 9)) % 100;
+    const favoredTeamId = game.winner_team_id || (gameSeed > 35 ? game.home_team_id : game.away_team_id);
+    const underdogTeamId = favoredTeamId === game.home_team_id ? game.away_team_id : game.home_team_id;
 
     applicableSources.forEach((s, sIdx) => {
-      // Deterministically determine if this source gets this pick correct based on its targetAccuracy
       const pseudoRandomSeed = (game.week * 17 + sIdx * 31 + (game.id.length * 7)) % 100;
-      const isCorrect = (pseudoRandomSeed / 100.0) < s.targetAccuracy;
+      const isFavoredPick = (pseudoRandomSeed / 100.0) < s.targetAccuracy;
 
-      const pickedTeamId = isCorrect ? winningTeamId : losingTeamId;
+      const pickedTeamId = isFavoredPick ? favoredTeamId : underdogTeamId;
       const pickedTeamObj = teamMap[pickedTeamId] || { name: `Team ${pickedTeamId}` };
 
       const quote = isEpl
-        ? `${s.author_name} selected ${pickedTeamObj.name} win in Premier League 2025 Matchday ${game.week}.`
-        : `${s.author_name} picked ${pickedTeamObj.name} in 2025 NFL Week ${game.week}.`;
+        ? `${s.author_name} selected ${pickedTeamObj.name} win in Premier League ${game.season} Matchday ${game.week}.`
+        : `${s.author_name} picked ${pickedTeamObj.name} in ${game.season} NFL Week ${game.week}.`;
 
-      insertPredStmt.run(
-        `p_hist_${game.league}_${game.id}_${sIdx}_${idCounter++}`,
-        s.id,
-        game.id,
-        s.author_name,
-        pickedTeamId,
-        quote,
-        isCorrect ? 'CORRECT' : 'INCORRECT'
-      );
+      let status = 'PENDING';
+      if (is2025) {
+        status = pickedTeamId === game.winner_team_id ? 'CORRECT' : 'INCORRECT';
+      }
+
+      // Check if predictions already exist for this source & game
+      const existing = db.prepare('SELECT id FROM predictions WHERE source_id = ? AND game_id = ?').get(s.id, game.id);
+      if (!existing) {
+        insertPredStmt.run(
+          `p_seed_${game.league}_${game.id}_${sIdx}_${idCounter++}`,
+          s.id,
+          game.id,
+          s.author_name,
+          pickedTeamId,
+          quote,
+          status
+        );
+      }
     });
   }
 
