@@ -5,6 +5,7 @@ import WeekTallyView from './components/WeekTallyView';
 import BacktestView from './components/BacktestView';
 import ModelCompare from './components/ModelCompare';
 import MyPicksView from './components/MyPicksView';
+import FriendsPool from './components/FriendsPool';
 import Leaderboard from './components/Leaderboard';
 import ScraperHub from './components/ScraperHub';
 import PredictionsList from './components/PredictionsList';
@@ -93,6 +94,12 @@ export default function App() {
 
             {activeTab === 'mypicks' && (
               <MyPicksView
+                selectedLeague={selectedLeague}
+              />
+            )}
+
+            {activeTab === 'friends' && (
+              <FriendsPool
                 selectedLeague={selectedLeague}
               />
             )}

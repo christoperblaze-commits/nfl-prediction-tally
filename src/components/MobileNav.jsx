@@ -6,8 +6,8 @@ export default function MobileNav({ activeTab, setActiveTab, selectedLeague }) {
     { id: 'weektally', label: selectedLeague === 'EPL' ? 'Matchday' : 'Fixtures', icon: Calendar },
     { id: 'compare', label: 'Compare', icon: Swords },
     { id: 'mypicks', label: 'My Picks', icon: Target },
+    { id: 'friends', label: 'Pools', icon: Compass },
     { id: 'backtest', label: 'Backtest', icon: TestTube },
-    { id: 'leaderboard', label: 'Tallies', icon: Trophy },
   ];
 
   return (

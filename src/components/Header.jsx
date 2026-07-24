@@ -110,9 +110,17 @@ export default function Header({ selectedLeague, setSelectedLeague, totalPredict
               🎯 My Picks
             </button>
             <button
+              onClick={() => setActiveTab('friends')}
+              className={`px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all ${
+                activeTab === 'friends' ? 'bg-purple-600 text-white shadow-md' : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              👥 Friends Pool
+            </button>
+            <button
               onClick={() => setActiveTab('backtest')}
               className={`px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all ${
-                activeTab === 'backtest' ? 'bg-purple-600 text-white shadow-md' : 'text-gray-300 hover:text-white'
+                activeTab === 'backtest' ? 'bg-indigo-600 text-white shadow-md' : 'text-gray-300 hover:text-white'
               }`}
             >
               🧪 Backtest

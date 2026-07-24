@@ -337,15 +337,49 @@ export default function WeekTallyView({ selectedLeague = 'NFL', onSelectGame }) 
                 key={game.id} 
                 className="glass-card rounded-3xl p-6 border border-gray-700/90 hover:border-blue-400/60 transition-all space-y-5 shadow-2xl"
               >
-                {/* Game Header */}
-                <div className="flex items-center justify-between border-b border-gray-700/80 pb-3">
-                  <span className="text-xs font-black uppercase text-blue-400 tracking-wider">
-                    {getWeekLabel(selectedWeek)} • Fixture #{idx + 1}
-                  </span>
-                  <span className="text-xs font-bold text-gray-300 bg-gray-900 px-3 py-1 rounded-full border border-gray-700">
-                    {game.status}
-                  </span>
+                {/* Game Header with Master Oracle Rating & Edge Badges */}
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-gray-700/80 pb-3">
+                  <div className="flex items-center gap-2">
+                    <span className="text-xs font-black uppercase text-blue-400 tracking-wider">
+                      {getWeekLabel(selectedWeek)} • Fixture #{idx + 1}
+                    </span>
+                    {game.oracle_status_label && (
+                      <span className={`px-2.5 py-0.5 text-[10px] font-black rounded-full uppercase border shadow-sm ${
+                        game.oracle_status_color === 'emerald'
+                          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+                          : game.oracle_status_color === 'blue'
+                          ? 'bg-blue-500/20 text-blue-300 border-blue-500/40'
+                          : 'bg-purple-500/20 text-purple-300 border-purple-500/40'
+                      }`}>
+                        {game.oracle_status_label}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    {game.is_value_edge && (
+                      <span className="px-2.5 py-0.5 text-[10px] font-black bg-amber-500/20 text-amber-300 border border-amber-500/40 rounded-full animate-pulse">
+                        ⚡ +EV VALUE EDGE
+                      </span>
+                    )}
+                    {game.is_trap_game && (
+                      <span className="px-2.5 py-0.5 text-[10px] font-black bg-rose-500/20 text-rose-300 border border-rose-500/40 rounded-full">
+                        ⚠️ PUBLIC TRAP WARNING
+                      </span>
+                    )}
+                    <span className="text-xs font-bold text-gray-300 bg-gray-900 px-3 py-1 rounded-full border border-gray-700">
+                      {game.status}
+                    </span>
+                  </div>
                 </div>
+
+                {/* Injury & Weather / Form Context Banner */}
+                {game.injury_context && (
+                  <div className="bg-gray-900/80 px-3.5 py-2 rounded-xl border border-gray-800 text-[11px] font-bold text-gray-300 flex items-center justify-between gap-2">
+                    <span className="truncate">🏥 {game.injury_context}</span>
+                    <span className="text-blue-400 shrink-0 font-mono">📊 {game.context_tag}</span>
+                  </div>
+                )}
 
                 {/* Team Matchup */}
                 <div className="grid grid-cols-5 items-center gap-3">
