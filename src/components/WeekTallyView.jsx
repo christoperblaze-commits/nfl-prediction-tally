@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Calendar, Flame, MessageSquare, Quote, Filter, Search, Layers, Trophy, CheckCircle2, Zap, Sparkles, Loader2 } from 'lucide-react';
+import { Calendar, Flame, MessageSquare, Quote, Filter, Search, Layers, Trophy, CheckCircle2, Zap, Sparkles, Loader2, ChevronDown } from 'lucide-react';
 import { fetchSeasons, fetchGames, triggerSyncAllSources } from '../services/apiClient';
 
 export default function WeekTallyView({ selectedLeague = 'NFL', onSelectGame }) {
@@ -12,6 +12,14 @@ export default function WeekTallyView({ selectedLeague = 'NFL', onSelectGame }) 
   const [syncStatusMsg, setSyncStatusMsg] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [platformFilter, setPlatformFilter] = useState('ALL');
+  const [expandedGameIds, setExpandedGameIds] = useState({});
+
+  const toggleGameExpand = (gameId) => {
+    setExpandedGameIds(prev => ({
+      ...prev,
+      [gameId]: !prev[gameId]
+    }));
+  };
 
   useEffect(() => {
     async function loadInitialSeasons() {
@@ -388,43 +396,59 @@ export default function WeekTallyView({ selectedLeague = 'NFL', onSelectGame }) 
                   </div>
                 </div>
 
-                {/* Scraped Prediction Quotes */}
-                <div className="space-y-2.5 pt-2 border-t border-gray-700/80">
-                  <p className="text-xs font-black uppercase tracking-wider text-gray-300">
-                    Scraped Quotes & Predictions ({preds.length})
-                  </p>
-                  
-                  {preds.length === 0 ? (
-                    <div className="bg-gray-900/60 p-4 rounded-2xl border border-gray-800 text-center space-y-2">
-                      <p className="text-xs text-gray-400 italic">No predictions scraped for this fixture yet.</p>
-                      <button
-                        onClick={handleAutoSync}
-                        disabled={syncing}
-                        className="text-xs text-blue-400 hover:text-white font-bold inline-flex items-center gap-1 cursor-pointer"
-                      >
-                        <Zap className="w-3.5 h-3.5 text-amber-400" /> Click to Auto-Scrape Sources
-                      </button>
+                {/* Collapsible Scraped Prediction Quotes Dropdown Menu */}
+                <div className="pt-2 border-t border-gray-700/80">
+                  <button
+                    onClick={() => toggleGameExpand(game.id)}
+                    className="w-full flex items-center justify-between p-3.5 bg-gray-900/90 hover:bg-gray-800 rounded-2xl border border-gray-700/90 transition-all cursor-pointer group active:scale-[0.99]"
+                  >
+                    <div className="flex items-center gap-2">
+                      <MessageSquare className="w-4 h-4 text-blue-400" />
+                      <span className="text-xs font-black uppercase tracking-wider text-gray-200 group-hover:text-white">
+                        Scraped Predictions ({preds.length})
+                      </span>
                     </div>
-                  ) : (
-                    <div className="space-y-2.5 max-h-56 overflow-y-auto pr-1 scrollbar-thin">
-                      {preds.map(p => (
-                        <div key={p.id} className="bg-gray-900/90 p-3.5 rounded-2xl border border-gray-700/80 text-xs space-y-1.5">
-                          <div className="flex items-center justify-between">
-                            <span className="font-extrabold text-white text-sm">{p.predictor_name}</span>
-                            <span className="text-xs text-gray-200 bg-gray-800 px-2.5 py-0.5 rounded-full border border-gray-600 font-bold">{p.platform}</span>
-                          </div>
-                          <p className="text-gray-200 font-bold text-xs">
-                            Picked: <span className="text-amber-400 font-black">{p.picked_team_name}</span>
-                          </p>
-                          <div className="flex items-start gap-2 text-xs text-gray-200 bg-black/40 p-2.5 rounded-xl italic leading-relaxed border border-gray-800">
-                            <Quote className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
-                            <span>"{p.quote_snippet}"</span>
-                          </div>
+                    <div className="flex items-center gap-2">
+                      <span className="text-[11px] font-bold text-gray-400 bg-gray-800 px-2.5 py-0.5 rounded-full border border-gray-700">
+                        {expandedGameIds[game.id] ? 'Hide' : 'View'} Quotes
+                      </span>
+                      <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform duration-300 ${expandedGameIds[game.id] ? 'rotate-180 text-blue-400' : ''}`} />
+                    </div>
+                  </button>
+
+                  {/* Dropdown Menu Content */}
+                  {expandedGameIds[game.id] && (
+                    <div className="mt-3 space-y-2.5 max-h-64 overflow-y-auto pr-1 scrollbar-thin animate-fade-in">
+                      {preds.length === 0 ? (
+                        <div className="bg-gray-900/60 p-4 rounded-2xl border border-gray-800 text-center space-y-2">
+                          <p className="text-xs text-gray-400 italic">No predictions scraped for this fixture yet.</p>
+                          <button
+                            onClick={handleAutoSync}
+                            disabled={syncing}
+                            className="text-xs text-blue-400 hover:text-white font-bold inline-flex items-center gap-1 cursor-pointer"
+                          >
+                            <Zap className="w-3.5 h-3.5 text-amber-400" /> Click to Auto-Scrape Sources
+                          </button>
                         </div>
-                      ))}
+                      ) : (
+                        preds.map(p => (
+                          <div key={p.id} className="bg-gray-900/90 p-3.5 rounded-2xl border border-gray-700/80 text-xs space-y-1.5">
+                            <div className="flex items-center justify-between">
+                              <span className="font-extrabold text-white text-sm">{p.predictor_name}</span>
+                              <span className="text-xs text-gray-200 bg-gray-800 px-2.5 py-0.5 rounded-full border border-gray-600 font-bold">{p.platform}</span>
+                            </div>
+                            <p className="text-gray-200 font-bold text-xs">
+                              Picked: <span className="text-amber-400 font-black">{p.picked_team_name}</span>
+                            </p>
+                            <div className="flex items-start gap-2 text-xs text-gray-200 bg-black/40 p-2.5 rounded-xl italic leading-relaxed border border-gray-800">
+                              <Quote className="w-4 h-4 text-blue-400 shrink-0 mt-0.5" />
+                              <span>"{p.quote_snippet}"</span>
+                            </div>
+                          </div>
+                        ))
+                      )}
                     </div>
                   )}
-
                 </div>
 
               </div>
