@@ -134,6 +134,11 @@ export function seedSamplePredictions(dbPath) {
     { id: 'src_x1', platform: 'X', url: 'https://x.com/AdamSchefter', author_name: '@AdamSchefter (𝕏 Twitter)', targetAccuracy: 0.70 },
     { id: 'src_x2', platform: 'X', url: 'https://x.com/IanRapoport', author_name: '@IanRapoport (𝕏 Twitter)', targetAccuracy: 0.68 },
     { id: 'src_x3', platform: 'X', url: 'https://x.com/ActionNetworkHQ', author_name: '@ActionNetworkHQ (𝕏 Twitter)', targetAccuracy: 0.69 },
+    { id: 'src_x4', platform: 'X', url: 'https://x.com/PFF', author_name: '@PFF (𝕏 Analytics)', targetAccuracy: 0.71 },
+    { id: 'src_x5', platform: 'X', url: 'https://x.com/NextGenStats', author_name: '@NextGenStats (𝕏 Stats)', targetAccuracy: 0.73 },
+    { id: 'src_x6', platform: 'X', url: 'https://x.com/SharpFootball', author_name: '@SharpFootball (𝕏 Models)', targetAccuracy: 0.70 },
+    { id: 'src_x7', platform: 'X', url: 'https://x.com/FieldYates', author_name: '@FieldYates (𝕏 ESPN)', targetAccuracy: 0.67 },
+    { id: 'src_x8', platform: 'X', url: 'https://x.com/DimersCom', author_name: '@DimersCom (𝕏 10k Sim)', targetAccuracy: 0.72 },
 
     // Premier League Outlets
     { id: 'src_epl_opta', platform: 'WEB', url: 'https://theanalyst.com/epl/predictions', author_name: 'Opta Supercomputer (10k Sim)', targetAccuracy: 0.72 },
@@ -160,7 +165,11 @@ export function seedSamplePredictions(dbPath) {
     { id: 'src_epl_yt_aftv', platform: 'YOUTUBE', url: 'https://youtube.com/c/AFTV', author_name: 'AFTV (Robbie Lyle & Crew)', targetAccuracy: 0.59 },
     { id: 'src_epl_x1', platform: 'X', url: 'https://x.com/FabrizioRomano', author_name: '@FabrizioRomano (𝕏 Twitter)', targetAccuracy: 0.72 },
     { id: 'src_epl_x2', platform: 'X', url: 'https://x.com/OptaAnalyst', author_name: '@OptaAnalyst (𝕏 Twitter)', targetAccuracy: 0.73 },
-    { id: 'src_epl_x3', platform: 'X', url: 'https://x.com/SkySportsPL', author_name: '@SkySportsPL (𝕏 Twitter)', targetAccuracy: 0.67 }
+    { id: 'src_epl_x3', platform: 'X', url: 'https://x.com/SkySportsPL', author_name: '@SkySportsPL (𝕏 Twitter)', targetAccuracy: 0.67 },
+    { id: 'src_epl_x4', platform: 'X', url: 'https://x.com/Squawka', author_name: '@Squawka (𝕏 Stats)', targetAccuracy: 0.69 },
+    { id: 'src_epl_x5', platform: 'X', url: 'https://x.com/BBCSport', author_name: '@BBCSport (𝕏 Football)', targetAccuracy: 0.66 },
+    { id: 'src_epl_x6', platform: 'X', url: 'https://x.com/WhoScored', author_name: '@WhoScored (𝕏 Ratings)', targetAccuracy: 0.70 },
+    { id: 'src_epl_x7', platform: 'X', url: 'https://x.com/FPLGeneral', author_name: '@FPLGeneral (𝕏 Picks)', targetAccuracy: 0.68 }
   ];
 
   const insertSourceStmt = db.prepare(`

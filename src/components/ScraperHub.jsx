@@ -31,7 +31,12 @@ export default function ScraperHub({ selectedLeague = 'NFL', onScrapeSuccess }) 
     { name: 'Warren Sharp (Sharp Football Analysis)', type: 'WEB', category: 'MEDIA', url: 'https://www.sharpfootballanalysis.com/nfl-picks' },
     { name: '@AdamSchefter (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/AdamSchefter' },
     { name: '@IanRapoport (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/IanRapoport' },
-    { name: '@ActionNetworkHQ (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/ActionNetworkHQ' }
+    { name: '@ActionNetworkHQ (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/ActionNetworkHQ' },
+    { name: '@PFF (𝕏 Analytics)', type: 'X', category: 'X', url: 'https://x.com/PFF' },
+    { name: '@NextGenStats (𝕏 Stats)', type: 'X', category: 'X', url: 'https://x.com/NextGenStats' },
+    { name: '@SharpFootball (𝕏 Models)', type: 'X', category: 'X', url: 'https://x.com/SharpFootball' },
+    { name: '@FieldYates (𝕏 ESPN)', type: 'X', category: 'X', url: 'https://x.com/FieldYates' },
+    { name: '@DimersCom (𝕏 10k Sim)', type: 'X', category: 'X', url: 'https://x.com/DimersCom' }
   ];
 
   const eplPresets = [
@@ -70,7 +75,11 @@ export default function ScraperHub({ selectedLeague = 'NFL', onScrapeSuccess }) 
     { name: 'AFTV Robbie Lyle & Crew Match Predictions', type: 'YOUTUBE', category: 'YOUTUBE', url: 'https://youtube.com/c/AFTV' },
     { name: '@FabrizioRomano (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/FabrizioRomano' },
     { name: '@OptaAnalyst (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/OptaAnalyst' },
-    { name: '@SkySportsPL (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/SkySportsPL' }
+    { name: '@SkySportsPL (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/SkySportsPL' },
+    { name: '@Squawka (𝕏 Stats)', type: 'X', category: 'X', url: 'https://x.com/Squawka' },
+    { name: '@BBCSport (𝕏 Football)', type: 'X', category: 'X', url: 'https://x.com/BBCSport' },
+    { name: '@WhoScored (𝕏 Ratings)', type: 'X', category: 'X', url: 'https://x.com/WhoScored' },
+    { name: '@FPLGeneral (𝕏 Picks)', type: 'X', category: 'X', url: 'https://x.com/FPLGeneral' }
   ];
 
   const presetSources = selectedLeague === 'EPL' ? eplPresets : nflPresets;
