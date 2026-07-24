@@ -477,7 +477,14 @@ export default function WeekTallyView({ selectedLeague = 'NFL', onSelectGame }) 
                           <div key={p.id} className="bg-gray-900/90 p-3.5 rounded-2xl border border-gray-700/80 text-xs space-y-1.5">
                             <div className="flex items-center justify-between">
                               <span className="font-extrabold text-white text-sm">{p.predictor_name}</span>
-                              <span className="text-xs text-gray-200 bg-gray-800 px-2.5 py-0.5 rounded-full border border-gray-600 font-bold">{p.platform}</span>
+                              <span className={`text-xs px-2.5 py-0.5 rounded-full border font-bold ${
+                                p.platform === 'X' ? 'bg-black text-sky-400 border-sky-500/50 shadow-sm' :
+                                p.platform === 'REDDIT' ? 'bg-orange-950 text-orange-400 border-orange-500/50' :
+                                p.platform === 'YOUTUBE' ? 'bg-red-950 text-red-400 border-red-500/50' :
+                                'bg-gray-800 text-gray-200 border-gray-600'
+                              }`}>
+                                {p.platform === 'X' ? '𝕏 Twitter' : p.platform}
+                              </span>
                             </div>
                             <p className="text-gray-200 font-bold text-xs">
                               Picked: <span className="text-amber-400 font-black">{p.picked_team_name}</span>
