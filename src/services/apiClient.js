@@ -1,4 +1,7 @@
-const API_BASE = import.meta.env.VITE_API_URL || '';
+// Live 24/7 Cloud Backend deployed on Render
+const CLOUD_RENDER_BACKEND = 'https://nfl-prediction-tally.onrender.com';
+
+const API_BASE = import.meta.env.VITE_API_URL || CLOUD_RENDER_BACKEND;
 
 export async function fetchSeasons(league = 'NFL') {
   const res = await fetch(`${API_BASE}/api/seasons?league=${league}`);

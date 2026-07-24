@@ -1,142 +1,134 @@
 import React from 'react';
-import { Trophy, Layers, RefreshCw, Zap, Calendar, Activity, Globe } from 'lucide-react';
+import { Trophy, Layers, RefreshCw, Zap, Calendar, Globe } from 'lucide-react';
 
 export default function Header({ selectedLeague, setSelectedLeague, totalPredictions, totalSources, activeTab, setActiveTab, onRefresh, syncing }) {
   return (
-    <header className="sticky top-0 z-50 glass-panel border-b border-gray-700/80 px-6 py-4">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+    <header className="sticky top-0 z-40 glass-panel border-b border-gray-700/80 px-4 sm:px-6 py-3 safe-top">
+      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
         
-        {/* Logo, Title & League Switcher */}
-        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-12 h-12 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-amber-500 p-0.5 shadow-lg shadow-blue-500/30">
+        {/* Top Header Row (Mobile & Desktop) */}
+        <div className="w-full md:w-auto flex items-center justify-between gap-3">
+          
+          {/* Logo & Title */}
+          <div className="flex items-center gap-2.5">
+            <div className="w-10 h-10 sm:w-11 sm:h-11 rounded-2xl bg-gradient-to-tr from-blue-600 via-indigo-600 to-amber-500 p-0.5 shadow-lg shadow-blue-500/20 shrink-0">
               <div className="w-full h-full bg-dark-900 rounded-[14px] flex items-center justify-center">
-                <Trophy className="w-6 h-6 text-amber-400" />
+                <Trophy className="w-5 h-5 text-amber-400" />
               </div>
             </div>
             <div>
-              <div className="flex items-center gap-2">
-                <h1 className="text-xl sm:text-2xl font-extrabold tracking-tight text-white font-outfit">Gridiron & Pitch Oracle</h1>
-                <span className="px-2.5 py-0.5 text-[10px] font-bold uppercase tracking-wider bg-blue-500/20 text-blue-300 border border-blue-400/30 rounded-full">
-                  {selectedLeague === 'EPL' ? 'EPL Premier League' : selectedLeague === 'NFL' ? 'NFL Football' : 'All Sports'}
-                </span>
-              </div>
-              <p className="text-xs text-gray-300 font-medium">Multi-Sport Crowd & Source Prediction Aggregator</p>
+              <h1 className="text-base sm:text-xl font-black tracking-tight text-white font-outfit leading-tight">
+                Gridiron & Pitch Oracle
+              </h1>
+              <p className="text-[11px] text-blue-400 font-bold hidden sm:block">AI Sports Prediction Tally</p>
             </div>
           </div>
 
-          {/* League Selector Switcher Bar */}
-          <div className="flex bg-gray-900/90 p-1.5 rounded-2xl border border-gray-700">
+          {/* League Switcher Pills */}
+          <div className="flex bg-gray-900/90 p-1 rounded-2xl border border-gray-700/90 shrink-0">
             <button
               onClick={() => setSelectedLeague('ALL')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
                 selectedLeague === 'ALL'
-                  ? 'bg-gradient-to-r from-purple-600 via-indigo-600 to-blue-600 text-white shadow-md shadow-purple-500/30'
-                  : 'text-gray-300 hover:text-white'
+                  ? 'bg-gradient-to-r from-purple-600 to-blue-600 text-white shadow-md'
+                  : 'text-gray-400 hover:text-white'
               }`}
             >
-              <Globe className="w-3.5 h-3.5 text-amber-300" /> All Sports
+              <Globe className="w-3 h-3 text-amber-300" /> <span className="hidden xs:inline">All</span>
             </button>
             <button
               onClick={() => setSelectedLeague('NFL')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
                 selectedLeague === 'NFL'
-                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md shadow-blue-500/30'
-                  : 'text-gray-300 hover:text-white'
+                  ? 'bg-gradient-to-r from-blue-600 to-indigo-600 text-white shadow-md'
+                  : 'text-gray-400 hover:text-white'
               }`}
             >
               🏈 NFL
             </button>
             <button
               onClick={() => setSelectedLeague('EPL')}
-              className={`px-3.5 py-1.5 rounded-xl text-xs font-black transition-all flex items-center gap-1.5 cursor-pointer ${
+              className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-xl text-[11px] font-black transition-all flex items-center gap-1 cursor-pointer ${
                 selectedLeague === 'EPL'
-                  ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md shadow-emerald-500/30'
-                  : 'text-gray-300 hover:text-white'
+                  ? 'bg-gradient-to-r from-emerald-600 to-teal-600 text-white shadow-md'
+                  : 'text-gray-400 hover:text-white'
               }`}
             >
-              ⚽ Premier League
+              ⚽ EPL
             </button>
           </div>
+
+          {/* Refresh Button on Mobile */}
+          <button
+            onClick={onRefresh}
+            disabled={syncing}
+            className="md:hidden p-2 bg-gray-900 hover:bg-gray-800 text-gray-200 rounded-xl border border-gray-700 shrink-0 cursor-pointer active:scale-95 disabled:opacity-50"
+            title="Refresh Prediction Tallies"
+          >
+            <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin text-blue-400' : ''}`} />
+          </button>
         </div>
 
-        {/* Stats Badges */}
-        <div className="hidden lg:flex items-center gap-5 bg-gray-900/90 px-5 py-2 rounded-2xl border border-gray-700/80">
-          <div className="flex items-center gap-2.5 border-r border-gray-700 pr-5">
-            <Zap className="w-5 h-5 text-amber-400" />
-            <div>
-              <p className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Total Scraped</p>
-              <p className="text-sm font-extrabold text-white">{totalPredictions} Picks</p>
+        {/* Desktop Navigation Tabs & Refresh Button */}
+        <div className="hidden md:flex items-center gap-3">
+          
+          {/* Stats Badges */}
+          <div className="flex items-center gap-4 bg-gray-900/90 px-4 py-1.5 rounded-2xl border border-gray-700/80 text-xs">
+            <div className="flex items-center gap-2 border-r border-gray-700 pr-4">
+              <Zap className="w-4 h-4 text-amber-400" />
+              <span className="font-extrabold text-white">{totalPredictions} Picks</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Layers className="w-4 h-4 text-blue-400" />
+              <span className="font-extrabold text-blue-400">{totalSources} Outlets</span>
             </div>
           </div>
-          <div className="flex items-center gap-2.5">
-            <Layers className="w-5 h-5 text-blue-400" />
-            <div>
-              <p className="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Outlets</p>
-              <p className="text-sm font-extrabold text-blue-400">{totalSources} Outlets</p>
-            </div>
-          </div>
-        </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex items-center gap-2">
           <nav className="flex bg-gray-900/90 p-1.5 rounded-2xl border border-gray-700/80">
             <button
               onClick={() => setActiveTab('weektally')}
-              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 ${
-                activeTab === 'weektally'
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/40'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+              className={`px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all flex items-center gap-1.5 ${
+                activeTab === 'weektally' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-300 hover:text-white'
               }`}
             >
-              <Calendar className="w-3.5 h-3.5 text-amber-400" /> {selectedLeague === 'EPL' ? 'Matchday' : selectedLeague === 'NFL' ? 'NFL Week' : 'Matchups'}
+              <Calendar className="w-3.5 h-3.5 text-amber-400" /> Matchups
             </button>
             <button
               onClick={() => setActiveTab('compare')}
-              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
-                activeTab === 'compare'
-                  ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-600/40'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+              className={`px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all ${
+                activeTab === 'compare' ? 'bg-indigo-600 text-white shadow-md' : 'text-gray-300 hover:text-white'
               }`}
             >
               ⚔️ Compare
             </button>
             <button
               onClick={() => setActiveTab('mypicks')}
-              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
-                activeTab === 'mypicks'
-                  ? 'bg-emerald-600 text-white shadow-lg shadow-emerald-600/40'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+              className={`px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all ${
+                activeTab === 'mypicks' ? 'bg-emerald-600 text-white shadow-md' : 'text-gray-300 hover:text-white'
               }`}
             >
               🎯 My Picks
             </button>
             <button
               onClick={() => setActiveTab('backtest')}
-              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
-                activeTab === 'backtest'
-                  ? 'bg-purple-600 text-white shadow-lg shadow-purple-600/40'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+              className={`px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all ${
+                activeTab === 'backtest' ? 'bg-purple-600 text-white shadow-md' : 'text-gray-300 hover:text-white'
               }`}
             >
               🧪 Backtest
             </button>
             <button
               onClick={() => setActiveTab('leaderboard')}
-              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
-                activeTab === 'leaderboard'
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/40'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+              className={`px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all ${
+                activeTab === 'leaderboard' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-300 hover:text-white'
               }`}
             >
-              Source Tallies
+              Leaderboard
             </button>
             <button
               onClick={() => setActiveTab('scraper')}
-              className={`px-4 py-2 text-xs font-bold rounded-xl transition-all ${
-                activeTab === 'scraper'
-                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/40'
-                  : 'text-gray-300 hover:text-white hover:bg-gray-800'
+              className={`px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all ${
+                activeTab === 'scraper' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-300 hover:text-white'
               }`}
             >
               Scraper Hub
@@ -146,7 +138,7 @@ export default function Header({ selectedLeague, setSelectedLeague, totalPredict
           <button
             onClick={onRefresh}
             disabled={syncing}
-            className="p-2.5 bg-gray-900 hover:bg-gray-800 text-gray-200 rounded-2xl border border-gray-700 transition-all hover:scale-105 active:scale-95 disabled:opacity-50"
+            className="p-2.5 bg-gray-900 hover:bg-gray-800 text-gray-200 rounded-2xl border border-gray-700 transition-all hover:scale-105 active:scale-95 disabled:opacity-50 cursor-pointer"
             title="Refresh Prediction Tallies"
           >
             <RefreshCw className={`w-4 h-4 ${syncing ? 'animate-spin text-blue-400' : ''}`} />
