@@ -297,6 +297,14 @@ export default function WeekTallyView({ selectedLeague = 'NFL', onSelectGame }) 
               YouTube
             </button>
             <button
+              onClick={() => setPlatformFilter('X')}
+              className={`px-4 py-2 rounded-lg font-bold transition-all text-xs ${
+                platformFilter === 'X' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              𝕏 Twitter
+            </button>
+            <button
               onClick={() => setPlatformFilter('WEB')}
               className={`px-4 py-2 rounded-lg font-bold transition-all text-xs ${
                 platformFilter === 'WEB' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-300 hover:text-white'

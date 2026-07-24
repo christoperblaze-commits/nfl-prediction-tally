@@ -28,7 +28,10 @@ export default function ScraperHub({ selectedLeague = 'NFL', onScrapeSuccess }) 
     { name: 'CBS Sports Pete Prisco Straight-Up', type: 'WEB', category: 'MEDIA', url: 'https://www.cbssports.com/nfl/news/prisco-picks' },
     { name: 'Bleacher Report Staff Consensus', type: 'WEB', category: 'MEDIA', url: 'https://bleacherreport.com/articles/nfl-predictions' },
     { name: 'NFL.com Official Analyst Game Picks', type: 'WEB', category: 'MEDIA', url: 'https://www.nfl.com/news/game-predictions' },
-    { name: 'Warren Sharp (Sharp Football Analysis)', type: 'WEB', category: 'MEDIA', url: 'https://www.sharpfootballanalysis.com/nfl-picks' }
+    { name: 'Warren Sharp (Sharp Football Analysis)', type: 'WEB', category: 'MEDIA', url: 'https://www.sharpfootballanalysis.com/nfl-picks' },
+    { name: '@AdamSchefter (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/AdamSchefter' },
+    { name: '@IanRapoport (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/IanRapoport' },
+    { name: '@ActionNetworkHQ (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/ActionNetworkHQ' }
   ];
 
   const eplPresets = [
@@ -64,7 +67,10 @@ export default function ScraperHub({ selectedLeague = 'NFL', onScrapeSuccess }) 
     { name: 'Statman Dave Tactical Match Predictions', type: 'YOUTUBE', category: 'YOUTUBE', url: 'https://youtube.com/c/StatmanDave' },
     { name: 'The United Stand (Mark Goldbridge)', type: 'YOUTUBE', category: 'YOUTUBE', url: 'https://youtube.com/c/TheUnitedStand' },
     { name: 'FPL Focal Fixture Predictions', type: 'YOUTUBE', category: 'YOUTUBE', url: 'https://youtube.com/c/FPLFocal' },
-    { name: 'AFTV Robbie Lyle & Crew Match Predictions', type: 'YOUTUBE', category: 'YOUTUBE', url: 'https://youtube.com/c/AFTV' }
+    { name: 'AFTV Robbie Lyle & Crew Match Predictions', type: 'YOUTUBE', category: 'YOUTUBE', url: 'https://youtube.com/c/AFTV' },
+    { name: '@FabrizioRomano (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/FabrizioRomano' },
+    { name: '@OptaAnalyst (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/OptaAnalyst' },
+    { name: '@SkySportsPL (𝕏 Twitter)', type: 'X', category: 'X', url: 'https://x.com/SkySportsPL' }
   ];
 
   const presetSources = selectedLeague === 'EPL' ? eplPresets : nflPresets;
@@ -219,7 +225,15 @@ export default function ScraperHub({ selectedLeague = 'NFL', onScrapeSuccess }) 
                 activeCategory === 'YOUTUBE' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-300 hover:text-white'
               }`}
             >
-              🎙️ YouTube & Podcasts
+              📹 YouTube
+            </button>
+            <button
+              onClick={() => setActiveCategory('X')}
+              className={`px-4 py-2 rounded-xl font-bold transition-all ${
+                activeCategory === 'X' ? 'bg-blue-600 text-white shadow-md' : 'text-gray-300 hover:text-white'
+              }`}
+            >
+              𝕏 Twitter
             </button>
             <button
               onClick={() => setActiveCategory('MEDIA')}

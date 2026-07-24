@@ -4,6 +4,7 @@ import { syncEspnGames } from '../services/espnService.js';
 import { scrapeRedditUrl } from '../scrapers/redditScraper.js';
 import { scrapeYouTubeUrl } from '../scrapers/youtubeScraper.js';
 import { scrapeWebUrl } from '../scrapers/webScraper.js';
+import { scrapeXUrl } from '../scrapers/xScraper.js';
 import { parsePredictionsFromText } from '../services/aiParser.js';
 
 const router = express.Router();
@@ -461,14 +462,18 @@ router.post('/sync-all-sources', async (req, res) => {
       { name: 'Dimers 10k Model', platform: 'WEB', url: 'https://www.dimers.com/nfl/predictions' },
       { name: 'OddsShark Supercomputer', platform: 'WEB', url: 'https://www.oddsshark.com/nfl/computer-picks' },
       { name: 'OddsTrader AI', platform: 'WEB', url: 'https://www.oddstrader.com/nfl/picks/' },
-      { name: 'ESPN Expert Consensus', platform: 'WEB', url: 'https://www.espn.com/nfl/story/_/id/predictions-2026' }
+      { name: 'ESPN Expert Consensus', platform: 'WEB', url: 'https://www.espn.com/nfl/story/_/id/predictions-2026' },
+      { name: '@AdamSchefter (𝕏 Twitter)', platform: 'X', url: 'https://x.com/AdamSchefter' },
+      { name: '@ActionNetworkHQ (𝕏 Twitter)', platform: 'X', url: 'https://x.com/ActionNetworkHQ' }
     ];
 
     const eplSources = [
       { name: 'Opta Supercomputer (10k Sim)', platform: 'WEB', url: 'https://theanalyst.com/epl/predictions' },
       { name: 'Chris Sutton (BBC Sport)', platform: 'WEB', url: 'https://www.bbc.com/sport/football/predictions' },
       { name: 'Paul Merson (Sky Sports)', platform: 'WEB', url: 'https://www.skysports.com/football/news/predictions' },
-      { name: 'Squawka AI Model', platform: 'WEB', url: 'https://www.squawka.com/en/predictions/' }
+      { name: 'Squawka AI Model', platform: 'WEB', url: 'https://www.squawka.com/en/predictions/' },
+      { name: '@FabrizioRomano (𝕏 Twitter)', platform: 'X', url: 'https://x.com/FabrizioRomano' },
+      { name: '@OptaAnalyst (𝕏 Twitter)', platform: 'X', url: 'https://x.com/OptaAnalyst' }
     ];
 
     const targetSources = league === 'EPL' ? eplSources : league === 'NFL' ? nflSources : [...nflSources, ...eplSources];
@@ -497,6 +502,7 @@ router.post('/sync-all-sources', async (req, res) => {
       try {
         if (src.platform === 'REDDIT') scrapeResult = await scrapeRedditUrl(src.url);
         else if (src.platform === 'YOUTUBE') scrapeResult = await scrapeYouTubeUrl(src.url);
+        else if (src.platform === 'X') scrapeResult = await scrapeXUrl(src.url);
         else scrapeResult = await scrapeWebUrl(src.url);
       } catch (err) {
         scrapeResult = { posts: [{ author: src.name, title: src.name, content: `${src.name} projects winner predictions.` }] };
@@ -547,9 +553,12 @@ router.post('/scrape', async (req, res) => {
     }
 
     let scrapeResult;
-    const targetPlatform = platform || (url.includes('reddit.com') ? 'REDDIT' : url.includes('youtube.com') || url.includes('youtu.be') ? 'YOUTUBE' : 'WEB');
+    const isXUrl = url.includes('x.com') || url.includes('twitter.com');
+    const targetPlatform = platform || (isXUrl ? 'X' : url.includes('reddit.com') ? 'REDDIT' : url.includes('youtube.com') || url.includes('youtu.be') ? 'YOUTUBE' : 'WEB');
 
-    if (targetPlatform === 'REDDIT') {
+    if (targetPlatform === 'X' || isXUrl) {
+      scrapeResult = await scrapeXUrl(url);
+    } else if (targetPlatform === 'REDDIT') {
       scrapeResult = await scrapeRedditUrl(url);
     } else if (targetPlatform === 'YOUTUBE') {
       scrapeResult = await scrapeYouTubeUrl(url);
